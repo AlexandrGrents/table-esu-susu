@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<h1>table</h1>
+
+<table id="grade-table" border="1" cellpadding="2">
+	<thead style="font-size:120%;test-align:center;cursor: default;">
+		<th>Название</th>
+		<th title="Баллы за задание">Баллы</th>
+		<th title="Максимально возможное количество баллов">Максимум</th>
+		<th title="Вклад в итоговую оценку">Вклад</th>
+	</thead>
+	<tbody id="grade-table-body">
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	var brs;
+	var id = 55219;
+	var taboo = ["экзамен","№ 7"];
+	var type = "test"; //"exam" or "test"
+	var colors = {
+		"category-title":"#d6fffe",
+		"category-result":"#ccffcc",
+		"final":
+		[
+			"#ffa1a1",
+			"#faee96",
+			"#d9fa96",
+			"#9cfa89"
+		],
+		"practic":
+		["#ffffff","#e5e5e5"],
+	};
+	if (type == "exam")
+	{
+		brs = 
+		{"(Неудовл.)":65,
+		"(Удовл.)":75,
+		"(Хор.)":85,
+		"(Отл.)":200}
+	}
+	else
+	{
+		brs = 
+		{"(Не зачёт)":60,
+		"(Зачёт)":200};
+	}
+	var tableSettings = {
+		"thead":
+		{
+			"title":"Название",
+			"weigth":"Вклад",
+			"grade":"Баллы",
+			"range":"Диапазон"
+		},
+		"col": {
+			"title":true,
+			"weight":true,
+			"grade":true,
+			"range":true
+		}
+	};
+</script>
+<script src="http-result.js"></script>
+<script src="script.js"></script>
+<script type="text/javascript">
+var table = document.getElementById('grade-table-body');
+grade = parseTable(http_result,taboo);
+drowGrades(table,grades,colors,brs);
+</script>
+</body>
+</html>
