@@ -5,6 +5,7 @@ function parseTable(res,taboo)
 	category = "";
 	category_result =0;
 	category_max = 0;
+	category_weight = 0;
 	// grades = {};
 	grades = {"":{"practics":[],"result":{"grade":0,"max":0,"weight":0,}}};
 	for (i=1;i<res.length;i++)
