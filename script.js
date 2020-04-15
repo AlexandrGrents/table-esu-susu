@@ -55,6 +55,11 @@ function parseTable(res,taboo)
 		{
 			// title  = res[i].match(/\/>[^<]*</)[0].replace('/>','').replace('<','');
 			// console.log(i,res[i]);
+			grades[category]["result"]["grade"]+=category_result;
+			grades[category]["result"]["weight"]+=category_weight;
+			grades[category]["result"]["max"]+=category_max;
+			category_result = 0;
+			category_max = 0;
 			category = res[i].match(/<\/i>[^<]*</)[0].replace(/<\/i>/,'').replace('<','');
 			
 			grades[category]={"practics":[],"result":{"grade":0,"max":0,"weight":0,}};
@@ -66,7 +71,11 @@ function parseTable(res,taboo)
 			console.log(category_weight);
 			category_weight = parseFloat(re.exec(category_weight));
 			if (category == "Дополнительные баллы") category_max = category_weight;
-			grades[category]["result"]={"grade":category_result,"weight":category_weight,"max":category_max};
+			// grades[category]["result"]={"grade":category_result,"weight":category_weight,"max":category_max};
+			grades[category]["result"]["grade"]+=category_result;
+			grades[category]["result"]["weight"]+=category_weight;
+			grades[category]["result"]["max"]+=category_max;
+			
 			category = "";
 			category_result = 0;
 			category_max = 0;
