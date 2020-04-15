@@ -24,6 +24,9 @@
 	var id = 55219;
 	var taboo = ["экзамен",];
 	var byzero = ["аттестация"];
+	var convert = {
+		"Календарь докладов":"Доклад",
+	};
 	var type = "exam"; //"exam" or "test"
 	var colors = {
 		"category-title":"#d6fffe",
@@ -52,21 +55,14 @@
 		{"(Не зачёт)":60,
 		"(Зачёт)":200};
 	}
-	var tableSettings = {
-		"col": {
-			"title":true,
-			"weight":true,
-			"grade":true,
-			"range":true
-		}
-	};
 </script>
 <script src="http-result.js"></script>
 <!-- <script src="https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js"></script> -->
 <script src="script.js"></script>
 <script type="text/javascript">
 var table = document.getElementById('grade-table-body');
-grade = parseTable(http_result,taboo);
+grades = parseTable(http_result,taboo,byzero,convert);
+console.log(grades);
 drowGrades(table,grades,colors,brs);
 </script>
 </body>

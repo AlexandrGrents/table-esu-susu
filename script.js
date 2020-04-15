@@ -1,13 +1,14 @@
-function parseTable(res,taboo)
+function parseTable(res,taboo,byzero,convert)
 {
 	var re = /\d+/;
+	var inByzeroo;
 	res = res.split('<tr');
 	category = "";
 	category_result =0;
 	category_max = 0;
 	category_weight = 0;
 	// grades = {};
-	grades = {"":{"practics":[],"result":{"grade":0,"max":0,"weight":0,}}};
+	grades = {"categories":{"":{"practics":[],"result":{"grade":0,"max":0,"weight":0,}}},"result":{"grade":0}};
 	for (i=1;i<res.length;i++)
 	{
 		tabooInThis = false;
@@ -21,13 +22,20 @@ function parseTable(res,taboo)
 		}
 		if (tabooInThis) continue;
 		
-			isCategoryResult = res[i].indexOf('gradeitemdescriptionfiller')!=-1 && res[i].indexOf('level1')==-1;
+		isCategoryResult = res[i].indexOf('gradeitemdescriptionfiller')!=-1 && res[i].indexOf('level1')==-1;
 		isCategoryTitle = res[i].split('<td').length>1 && res[i].split('<td').length<4 && res[i].indexOf('level1')==-1; ;
 		isPractic = res[i].split('<td').length>3  && !isCategoryTitle && res[i].indexOf('gradeitemdescriptionfiller')==-1  && res[i].indexOf('level1')==-1;;
 		if (isPractic)
 		{
 			
 			title  = res[i].match(/\/>[^<]*</)[0].replace('/>','').replace('<','');
+			for (convertFrom in convert)
+			{
+				if (title.indexOf(convertFrom)!=-1)
+				{
+					title.replace(convertFrom,convert[convertFrom]);
+				}
+			}
 			try
 			{
 				href   = res[i].match(/href="[^\"]*"/)[0].replace('href="','').replace('"','');
@@ -48,62 +56,89 @@ function parseTable(res,taboo)
 			if (isNaN(max)) max = 0;
 			if (isNaN(grade)) grade = 0;
 			
-			category_result+=grade;
-			category_max+=max;
-			grades[category]["practics"].push({"title":title,"href":href,"grade":grade,"max":max,"weight":weight});
+			inByzeroo = false;
+			for (j=0;j<byzero.length;j++)
+			{
+				if (title.toLowerCase().indexOf(byzero[j])!=-1)
+				{
+					inByzeroo=true;
+					break;
+				}
+			}
+			if (!inByzeroo)
+			{
+				category_result+=grade;
+				category_max+=max;
+			}
+			
+
+			grades["categories"][category]["practics"].push({"title":title,"href":href,"grade":grade,"max":max,"weight":weight});
 		}
 		else if (isCategoryTitle)
 		{
 			// title  = res[i].match(/\/>[^<]*</)[0].replace('/>','').replace('<','');
 			// console.log(i,res[i]);
-			grades[category]["result"]["grade"]+=category_result;
-			grades[category]["result"]["weight"]+=category_weight;
-			grades[category]["result"]["max"]+=category_max;
+			grades["categories"][category]["result"]["grade"]+=category_result;
+			grades["categories"][category]["result"]["weight"]+=category_weight;
+			grades["categories"][category]["result"]["max"]+=category_max;
 			category_result = 0;
 			category_max = 0;
 			category = res[i].match(/<\/i>[^<]*</)[0].replace(/<\/i>/,'').replace('<','');
-			
-			grades[category]={"practics":[],"result":{"grade":0,"max":0,"weight":0,}};
+			for (convertFrom in convert)
+			{
+				if (category.indexOf(convertFrom)!=-1)
+				{
+					category.replace(convertFrom,convert[convertFrom]);
+				}
+			}
+			grades["categories"][category]={"practics":[],"result":{"grade":0,"max":0,"weight":0,}};
 		}
 		else if (isCategoryResult)
 		{
 
 			category_weight  = res[i].match(/column-range[^>]*>[^<]*</)[0].replace(/column-range[^>]*>/,'').replace('<','').split("&ndash;")[1];
-			console.log(category_weight);
 			category_weight = parseFloat(re.exec(category_weight));
 			if (category == "Дополнительные баллы") category_max = category_weight;
 			// grades[category]["result"]={"grade":category_result,"weight":category_weight,"max":category_max};
-			grades[category]["result"]["grade"]+=category_result;
-			grades[category]["result"]["weight"]+=category_weight;
-			grades[category]["result"]["max"]+=category_max;
-			
+			grades["categories"][category]["result"]["grade"]+=category_result;
+			grades["categories"][category]["result"]["weight"]+=category_weight;
+			grades["categories"][category]["result"]["max"]+=category_max;
+			grades["result"]["grade"]+=(category_result - (category_result % category_max)*(category_result/category_max>1)) * category_weight/category_max;
+			console.log(category_result, category_weight,category_max, grades["result"]["grade"]);
 			category = "";
 			category_result = 0;
 			category_max = 0;
 		}
 	}
+	grades["categories"][category]["result"]["grade"]+=category_result;
+	grades["categories"][category]["result"]["weight"]+=category_weight;
+	grades["categories"][category]["result"]["max"]+=category_max;
+
+
+	grades["result"]["grade"]+=grades["categories"][""]["result"]["grade"];
+	// grades["result"]["grade"]=85;
 	return grades;
 }
 function drowGrades(table,grades,colors,brs)
 {
-	result = 0;
-	for (category in grades)
+	categories = grades["categories"];
+	for (category in categories)
 	{
 
 		if (category=="") continue;
-		if (grades[category]["practics"].length==0) continue;
+		if (categories[category]["practics"].length==0) continue;
 		tr = document.createElement('tr');
 		tr.className = "table-grade-category-title table-grade-row";
 		tr.style.backgroundColor=colors["category-title"];
-		tr.innerHTML=`<td colspan="${Object.keys(grades[category]["practics"][0]).length-1}"><b>${category}</b></td>`;
+		tr.innerHTML=`<td colspan="${Object.keys(categories[category]["practics"][0]).length-1}"><b>${category}</b></td>`;
 		table.appendChild(tr);
-		
-		for (i=0;i<grades[category]["practics"].length;i++)
+		practics = categories[category]["practics"];
+		for (i=0;i<practics.length;i++)
 		{
-			title  = grades[category]["practics"][i]["title"];
-			grade  = grades[category]["practics"][i]["grade"];
-			max    = grades[category]["practics"][i]["max"];
-			weight = grades[category]["practics"][i]["weight"];
+			title  = practics[i]["title"];
+			grade  = practics[i]["grade"];
+			max    = practics[i]["max"];
+			weight = practics[i]["weight"];
 			tr = document.createElement('tr');
 			tr.className = "table-grade-practic table-grade-row";
 			tr.style.backgroundColor=colors["practic"][i%2];
@@ -111,26 +146,25 @@ function drowGrades(table,grades,colors,brs)
 			table.appendChild(tr);
 		}
 		title  = `Итого в категории "${category}"`;
-		grade  = grades[category]["result"]["grade"];
-		max    = grades[category]["result"]["max"];
-		weight = grades[category]["result"]["weight"];
-		if (max!=0) result += (grade - (grade%max)*(grade/max>1))*weight/max ;
+		grade  = categories[category]["result"]["grade"];
+		max    = categories[category]["result"]["max"];
+		weight = categories[category]["result"]["weight"];
 		tr = document.createElement('tr');
 		tr.className = "table-grade-category-result table-grade-row";
 		tr.style.backgroundColor=colors["category-result"];
 		tr.innerHTML=`<td><b>${title}</b></td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
 		table.appendChild(tr);
 	}
-	if (grades[""]["practics"].length!=0)
+	if (categories[""]["practics"].length!=0)
 	{
 		category="";
-		for (i=0;i<grades[""]["practics"].length;i++)
+		for (i=0;i<categories[""]["practics"].length;i++)
 		{
-			title  = grades[category]["practics"][i]["title"];
-			grade  = grades[category]["practics"][i]["grade"];
-			max    = grades[category]["practics"][i]["max"];
-			weight = grades[category]["practics"][i]["weight"];
-			href   = grades[category]["practics"][i]["href"];
+			title  = categories[category]["practics"][i]["title"];
+			grade  = categories[category]["practics"][i]["grade"];
+			max    = categories[category]["practics"][i]["max"];
+			weight = categories[category]["practics"][i]["weight"];
+			href   = categories[category]["practics"][i]["href"];
 			if (max!=0) result +=(grade*weight/max);
 			tr = document.createElement('tr');
 			tr.className = "table-grade-practic table-grade-row";
@@ -146,6 +180,7 @@ function drowGrades(table,grades,colors,brs)
 	k=0;
 	color = "";
 	comment = "";
+	var result = grades["result"]["grade"];
 	for (finalGrade in brs)
 	{
 		if (result<brs[finalGrade])
@@ -162,7 +197,6 @@ function drowGrades(table,grades,colors,brs)
 			k++;
 		}
 	}
-	console.log(color);
 	tr.innerHTML=`<td><b>Итог</b></td><td style="background-color:${color};" colspan="3">${result.toFixed(2)} ${comment}</td>`;
 	table.appendChild(tr);
 }
