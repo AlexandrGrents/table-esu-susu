@@ -24,6 +24,7 @@
 	var id = 55219;
 	var taboo = ["экзамен","Промежуточная"];
 	var byzero = ["аттестация"];
+	var frozenmax = ["дополнительные баллы"];
 	var convert = {
 		"Календарь докладов":"Доклад",
 	};
@@ -55,14 +56,16 @@
 		{"(Не зачёт)":60,
 		"(Зачёт)":200};
 	}
+	taboo = taboo.map(function(elem){return elem.toLowerCase()});
+	byzero = byzero.map(function(elem){return elem.toLowerCase()});
+	frozenmax = frozenmax.map(function(elem){return elem.toLowerCase()});
 </script>
 <script src="http-result.js"></script>
 <!-- <script src="https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js"></script> -->
 <script src="script.js"></script>
 <script type="text/javascript">
-	taboo = taboo.map(function(tab){return tab.toLowerCase()});
 var table = document.getElementById('grade-table-body');
-grades = parseTable(http_result,taboo,byzero,convert);
+grades = parseTable(http_result,taboo,byzero,frozenmax,convert);
 console.log(grades);
 drowGrades(table,grades,colors,brs);
 </script>

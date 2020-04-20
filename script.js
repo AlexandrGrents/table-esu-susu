@@ -1,4 +1,4 @@
-function parseTable(res,taboo,byzero,convert)
+function parseTable(res,taboo,byzero,frozenmax,convert)
 {
 	var re = /\d+/;
 	var inByzeroo;
@@ -106,15 +106,23 @@ function parseTable(res,taboo,byzero,convert)
 
 			category_weight  = res[i].match(/column-range[^>]*>[^<]*</)[0].replace(/column-range[^>]*>/,'').replace('<','').split("&ndash;")[1];
 			category_weight = parseFloat(re.exec(category_weight));
-			if (category == "Дополнительные баллы") category_max = category_weight;
+			for (j=0;j<frozenmax.length;j++)
+			{
+				// console.log(category,frozenmax[j])
+				if (category.toLowerCase().indexOf(frozenmax[j])!=-1)
+				{
+					category_max = category_weight;
+				}
+			}
+			// if (category == "Дополнительные баллы") category_max = category_weight;
 			// grades[category]["result"]={"grade":category_result,"weight":category_weight,"max":category_max};
 			
 			grades["categories"][category]["result"]["grade"]+=category_result;
 			grades["categories"][category]["result"]["weight"]+=category_weight;
 			grades["categories"][category]["result"]["max"]+=category_max;
-			console.log(category_result, category_weight,category_max, grades["result"]["grade"]);
+			// console.log(category_result, category_weight,category_max, grades["result"]["grade"]);
 			
-			console.log(category_result, category_weight,category_max, grades["result"]["grade"]);
+			// console.log(category_result, category_weight,category_max, grades["result"]["grade"]);
 			lastCategory = category;
 
 			category = "";
