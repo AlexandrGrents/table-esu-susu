@@ -1,7 +1,7 @@
-## Таблица оценок для edu.susu.ru
+# Таблица оценок для edu.susu.ru
 
 
-### Для добавления таблицы на сайт требуется:
+## Для добавления таблицы на сайт требуется:
 ##### 1. Редактировать требуемый раздел
 ![Шаг 1.1. Редактировать курс](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st1.png "Редактировать курс")
 ![Шаг 1.2. Редактировать раздел](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st2.png "Редактировать раздел")
@@ -83,7 +83,7 @@ if (type == "exam")
 
 <hr>
 
-Подсчёт оценок производится по следующей формуле:
+## Подсчёт оценок производится по следующей формуле:
 
 ###### Оценка за категорию
     category_grade[i] = sum (for practic in category[i]) * category_max / sum(for practics_max in category[i])
