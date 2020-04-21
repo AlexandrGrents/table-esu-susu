@@ -41,7 +41,7 @@ function parseTable(res,taboo,byzero,frozenmax,convert)
 			{
 				if (title.indexOf(convertFrom)!=-1)
 				{
-					title.replace(convertFrom,convert[convertFrom]);
+					title = title.replace(convertFrom,convert[convertFrom]);
 				}
 			}
 			try
@@ -96,7 +96,7 @@ function parseTable(res,taboo,byzero,frozenmax,convert)
 			{
 				if (category.indexOf(convertFrom)!=-1)
 				{
-					category.replace(convertFrom,convert[convertFrom]);
+					category = category.replace(convertFrom,convert[convertFrom]);
 				}
 			}
 			grades["categories"][category]={"practics":[],"result":{"grade":0,"max":0,"weight":0,}};
@@ -150,8 +150,23 @@ function parseTable(res,taboo,byzero,frozenmax,convert)
 	// grades["result"]["grade"]=85;
 	return grades;
 }
-function drowGrades(table,grades,colors,brs)
+function drowGrades(table,grades,colors,brs,convert)
 {
+	let total_category_message="Итого в категории";
+	let total_message = "Итог";
+	console.log(convert);
+	for (convertFrom in convert)
+	{
+		console.log(convertFrom,convert[convertFrom]);
+		if (total_message == convertFrom)
+		{
+			total_message = convert[convertFrom];
+		}
+		if (total_category_message  == convertFrom)
+		{
+			total_category_message = convert[convertFrom];
+		}
+	}
 	categories = grades["categories"];
 	for (category in categories)
 	{
@@ -174,10 +189,18 @@ function drowGrades(table,grades,colors,brs)
 			tr = document.createElement('tr');
 			tr.className = "table-grade-practic table-grade-row";
 			tr.style.backgroundColor=colors["practic"][i%2];
-			tr.innerHTML=`<td><a href = "${href}">${title}</a></td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
+			if (href != "#")
+			{
+				tr.innerHTML=`<td><a href = "${href}">${title}</a></td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
+			}
+			else
+			{
+				tr.innerHTML=`<td>${title}</td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
+			}
+			
 			table.appendChild(tr);
 		}
-		title  = `Итого в категории "${category}"`;
+		title  = `${total_category_message} "${category}"`;
 		grade  = categories[category]["result"]["grade"];
 		max    = categories[category]["result"]["max"];
 		weight = categories[category]["result"]["weight"];
@@ -201,7 +224,15 @@ function drowGrades(table,grades,colors,brs)
 			tr = document.createElement('tr');
 			tr.className = "table-grade-practic table-grade-row";
 			tr.style.backgroundColor=colors["practic"][i%2];
-			tr.innerHTML=`<td><a href = "${href}">${title}</a></td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
+			if (href!="#")
+			{
+				tr.innerHTML=`<td><a href = "${href}">${title}</a></td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
+			}
+			else
+			{
+				tr.innerHTML=`<td>${title}</td><td>${grade}</td><td>${max}</td><td>${weight}%</td>`;
+			}
+			
 			table.appendChild(tr);
 		}
 	}
@@ -229,6 +260,7 @@ function drowGrades(table,grades,colors,brs)
 			k++;
 		}
 	}
-	tr.innerHTML=`<td><b>Итог</b></td><td style="background-color:${color};" colspan="3">${result.toFixed(2)} ${comment}</td>`;
+
+	tr.innerHTML=`<td><b>${total_message}</b></td><td style="background-color:${color};" colspan="3">${result.toFixed(2)} ${comment}</td>`;
 	table.appendChild(tr);
 }
