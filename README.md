@@ -103,8 +103,9 @@ if (type == "exam")
 
 
 ###### [Исходный код](https://github.com/AlexandrGrents/table-esu-susu/blob/master/script.js)
-По умолчанию код получается с [данной](https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js) страницы
 ###### [Пример использования](https://github.com/AlexandrGrents/table-esu-susu/blob/master/example.html)
 ###### [Пример сгенерированной таблицы](https://github.com/AlexandrGrents/table-esu-susu/blob/master/example.md)
+
+**P.S.** По умолчанию код получается с [данной](https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js) страницы, который синхронизируется с исходным
 
 [Александр Гренц](mailto:alx.grents@gmail.com)
