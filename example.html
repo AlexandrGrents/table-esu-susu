@@ -70,15 +70,15 @@
 <script src="script.js"></script>
 <script type="text/javascript">
 	
-if (!show)
+if (!show){	document.getElementById("grade-table").style.display = "none";}
+else
 {
-	// table.setAttribute("st""display : none;");
-	document.getElementById("grade-table").style.display = "none";
-}
-var table = document.getElementById('grade-table-body');
+	var table = document.getElementById('grade-table-body');
 grades = parseTable(http_result,taboo,byzero,frozenmax,convert);
 console.log(grades);
 drowGrades(table,grades,colors,brs,convert);
+}
+
 </script>
 </body>
 </html>
