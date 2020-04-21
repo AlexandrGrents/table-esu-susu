@@ -104,6 +104,7 @@ if (type == "exam")
 
 ###### [Исходный код](https://github.com/AlexandrGrents/table-esu-susu/blob/master/script.js)
 ###### [Пример использования](https://github.com/AlexandrGrents/table-esu-susu/blob/master/example.html)
+###### [Для удобного копирования](https://github.com/AlexandrGrents/table-esu-susu/blob/master/for%20copy.hrml)
 ###### [Пример сгенерированной таблицы](https://github.com/AlexandrGrents/table-esu-susu/blob/master/example.md)
 
 **P.S.** По умолчанию код получается с [данной](https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js) страницы, который синхронизируется с исходным
