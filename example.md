@@ -1,4 +1,7 @@
 <h1>Тут представлена только стркуктура. Внешний вид на GitHub может отличаться edu.susu.ru</h1>
+<h3>"Аттестация" указана в массиве byzero, поэтому не учитывается</h3>
+<h3>Категория "Дополнительные баллы" указана в массиве frozenmax, поэтому расчитывается по-другому</h3>
+
 <table id="grade-table" border="1" cellpadding="2">
 	<thead style="font-size:120%;test-align:center;cursor: default;">
 		<tr><th>Название</th>
