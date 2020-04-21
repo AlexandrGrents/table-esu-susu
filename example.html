@@ -9,66 +9,66 @@
 <h1>Table</h1>
 
 
-<script type="text/javascript">
-	var show = true;
-	var brs;
-	var id = 55219;
-	var taboo = ["экзамен","Промежуточная"];
-	var byzero = ["аттестация"];
-	var frozenmax = ["дополнительные баллы"];
-	var convert = {
-		"Календарь докладов":"Доклад",
-		"Итого в категории":"Total in",
-		"Итог":"Total",
-		"№ 3":"№ 1",
-	};
-	var type = "exam"; //"exam" or "test"
-	var colors = {
-		"category-title":"#d6fffe",
-		"category-result":"#ccffcc",
-		"final":
-		[
-			"#ffa1a1",
-			"#faee96",
-			"#d9fa96",
-			"#9cfa89"
-		],
-		"practic":
-		["#ffffff","#e5e5e5"],
-	};
-	if (type == "exam")
-	{
-		brs = 
-		{"(Неудовл.)":65,
-		"(Удовл.)":75,
-		"(Хор.)":85,
-		"(Отл.)":200}
-	}
-	else
-	{
-		brs = 
-		{"(Не зачёт)":60,
-		"(Зачёт)":200};
-	}
-	taboo = taboo.map(function(elem){return elem.toLowerCase()});
-	byzero = byzero.map(function(elem){return elem.toLowerCase()});
-	frozenmax = frozenmax.map(function(elem){return elem.toLowerCase()});
+    var show = true;
+    var brs;
+    var id = 55297;
+    var taboo = ["экзамен", "Промежуточная"];
+    var byzero = ["аттестация"];
+    var frozenmax = ["дополнительные баллы"];
+    var convert = {
+        "Календарь докладов": "Доклад",
+    };
+    var type = "exam"; //"exam" or "test"
+    var colors = {
+        "category-title": "#d6fffe",
+        "category-result": "#ccffcc",
+        "final": [
+            "#ffa1a1",
+            "#faee96",
+            "#d9fa96",
+            "#9cfa89"
+        ],
+        "practic": ["#ffffff", "#e5e5e5"],
+    };
+    if (type == "exam") {
+        brs = {
+            "(Неудовл.)": 65,
+            "(Удовл.)": 75,
+            "(Хор.)": 85,
+            "(Отл.)": 200
+        }
+    } else {
+        brs = {
+            "(Не зачёт)": 60,
+            "(Зачёт)": 200
+        };
+    }
+    taboo = taboo.map(function(elem) {
+        return elem.toLowerCase()
+    });
+    byzero = byzero.map(function(elem) {
+        return elem.toLowerCase()
+    });
+    frozenmax = frozenmax.map(function(elem) {
+        return elem.toLowerCase()
+    });
 </script>
-
 <table id="grade-table" border="1" cellpadding="2">
-	<thead style="font-size:120%;test-align:center;cursor: default;">
-		<th>Название</th>
-		<th title="Баллы за задание">Баллы</th>
-		<th title="Максимально возможное количество баллов">Максимум</th>
-		<th title="Вклад в итоговую оценку">Вклад</th>
-	</thead>
-	<tbody id="grade-table-body">
-	</tbody>
+    <thead style="font-size:120%;test-align:center;cursor: default;">
+        <tr>
+            <th>Название</th>
+            <th title="Баллы за задание">Баллы</th>
+            <th title="Максимально возможное количество баллов">Максимум</th>
+            <th title="Вклад в итоговую оценку">Вклад</th>
+        </tr>
+    </thead>
+    <tbody id="grade-table-body">
+
+    </tbody>
 </table>
-<script src="http-result.js"></script>
-<!-- <script src="https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js"></script> -->
-<script src="script.js"></script>
+<script src="https://raw.githack.com/AlexandrGrents/table-esu-susu/master/script.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
 	
 if (!show){	document.getElementById("grade-table").style.display = "none";}
 else
@@ -79,6 +79,26 @@ console.log(grades);
 drowGrades(table,grades,colors,brs,convert);
 }
 
+=======
+    if (!show) {
+        document.getElementById("grade-table").style.display = "none";
+    } else {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", `/grade/report/user/index.php?id=${id}`, true);
+        xhr.send();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var res = xhr.responseText;
+                    res = res.split('<table')[1].split('</table>')[0];
+                    var table = document.getElementById('grade-table-body');
+                    grades = parseTable(res, taboo, byzero, frozenmax, convert);
+                    drowGrades(table, grades, colors, brs, convert);
+                }
+            }
+        }
+    }
+>>>>>>> 269187b1c45dbdf78cd1d3b1b9e7aee2356da12b
 </script>
 </body>
 </html>
