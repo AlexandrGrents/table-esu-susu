@@ -66,6 +66,8 @@ function parseTable(res,taboo,byzero,frozenmax,convert)
 			if (isNaN(max)) max = 0;
 			if (isNaN(grade)) grade = 0;
 			
+			console.log(weight,grade,max); 
+			
 			inByzeroo = false;
 			for (j=0;j<byzero.length;j++)
 			{
