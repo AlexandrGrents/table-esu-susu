@@ -1,6 +1,6 @@
 function parseTable(res,taboo,byzero,frozenmax,convert)
 {
-	var re = /\d+/;
+	var re = /\d+.?\d*/;
 	var inByzeroo;
 	res = res.split('<tr');
 	category = "";
@@ -67,7 +67,7 @@ function parseTable(res,taboo,byzero,frozenmax,convert)
 			if (isNaN(grade)) grade = 0;
 			
 			console.log(weight,grade,max); 
-			
+
 			inByzeroo = false;
 			for (j=0;j<byzero.length;j++)
 			{
