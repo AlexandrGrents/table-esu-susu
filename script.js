@@ -56,7 +56,9 @@ function parseTable(res,taboo,byzero,frozenmax,convert)
 			weight = res[i].match(/column-weight[^>]*>[^<]*</)[0].replace(/column-weight[^>]*>/,'').replace('<','').replace(',','.');
 			grade  = res[i].match(/column-grade[^>]*>[^<]*</)[0].replace(/column-grade[^>]*>/,'').replace('<','').replace(',','.');
 			max  = res[i].match(/column-range[^>]*>[^<]*</)[0].replace(/column-range[^>]*>/,'').replace('<','').split("&ndash;")[1];
-			
+
+			console.log(weight,grade,max); 
+
 			grade = parseFloat(re.exec(grade));
 			weight = parseFloat(re.exec(weight));
 			max = parseFloat(re.exec(max));
