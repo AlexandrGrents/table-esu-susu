@@ -6,7 +6,7 @@
 ![Шаг 1.1. Редактировать курс](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st1.png "Редактировать курс")
 ![Шаг 1.2. Редактировать раздел](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st2.png "Редактировать раздел")
 ![Шаг 1.3. Редактировать описание раздела](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st3.png "Редактировать описание раздела")
-##### 2. Скопировать [данный код](https://github.com/AlexandrGrents/table-esu-susu/blob/master/for%20copy.hrml) и вставить в требуемое место
+##### 2. Скопировать [данный код](https://github.com/AlexandrGrents/table-esu-susu/blob/master/for%20copy.html) и вставить в требуемое место
 ![Шаг 2.1. Выбрать место для добавления](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st4.png "Выбрать место для добавления")
 ![Шаг 2.2. Добавить таблицу](https://github.com/AlexandrGrents/table-esu-susu/blob/master/images/st5.png "Добавить таблицу")
 ##### 3. Поменять id на id курса 
